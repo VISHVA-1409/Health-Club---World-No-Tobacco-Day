@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World No Tobacco Day Quiz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            padding: 40px;
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+            animation: slideIn 0.8s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h2 {
+            color: #444;
+            margin-bottom: 25px;
+            font-size: 1.8em;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: bold;
+        }
+
+        input[type="text"], input[type="email"], input[type="tel"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus, input[type="email"]:focus, input[type="tel"]:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.2);
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .question {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .question h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .options {
+            display: grid;
+            gap: 10px;
+        }
+
+        .option {
+            padding: 12px 15px;
+            background: white;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .option:hover {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+
+        .option.selected {
+            border-color: #667eea;
+            background: #667eea;
+            color: white;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e1e5e9;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            transition: width 0.3s ease;
+            border-radius: 4px;
+        }
+
+        .riddle {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .riddle-text {
+            font-size: 1.1em;
+            font-style: italic;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .riddle input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ff9a9e;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .score-display {
+            font-size: 1.5em;
+            margin: 20px 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            border-radius: 15px;
+            color: #333;
+        }
+
+        .celebration {
+            animation: bounce 1s ease-in-out infinite alternate;
+        }
+
+        @keyframes bounce {
+            from { transform: translateY(0px); }
+            to { transform: translateY(-10px); }
+        }
+
+        .tobacco-icon {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        .error {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .success {
+            color: #27ae60;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-22LD4DD8ES"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-22LD4DD8ES');
+</script>
+    <div class="container">
+        <!-- Login Page -->
+        <div id="loginPage" class="page active">
+            <div class="tobacco-icon">🚭</div>
+            <h1>World No Tobacco Day</h1>
+            <h2>Educational Quiz</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="name">Full Name:</label>
+                    <input type="text" id="name" name="name" required>
+                    <div class="error" id="nameError"></div>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address:</label>
+                    <input type="email" id="email" name="email" required>
+                    <div class="error" id="emailError"></div>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number:</label>
+                    <input type="tel" id="phone" name="phone" required>
+                    <div class="error" id="phoneError"></div>
+                </div>
+                <div class="form-group">
+                    <label for="registration">Registration Number:</label>
+                    <input type="text" id="registration" name="registration" required>
+                    <div class="error" id="registrationError"></div>
+                </div>
+                <button type="submit" class="btn" id="submitBtn">Start Quiz</button>
+                <div id="statusMessage"></div>
+            </form>
+        </div>
+
+        <!-- Quiz Page -->
+        <div id="quizPage" class="page">
+            <h1>Quiz Challenge</h1>
+            <div class="progress-bar">
+                <div class="progress" id="progressBar"></div>
+            </div>
+            <div id="questionContainer"></div>
+            <button id="nextBtn" class="btn" style="display: none;">Next Question</button>
+            <button id="finishQuizBtn" class="btn" style="display: none;">Proceed to Riddles</button>
+        </div>
+
+        <!-- Riddle Page -->
+        <div id="riddlePage" class="page">
+            <h1>Riddle Challenge</h1>
+            <div class="progress-bar">
+                <div class="progress" id="riddleProgressBar"></div>
+            </div>
+            <div id="riddleContainer"></div>
+            <button id="submitRiddleBtn" class="btn" style="display: none;">Submit Answer</button>
+            <button id="nextRiddleBtn" class="btn" style="display: none;">Next Riddle</button>
+            <button id="finishRiddleBtn" class="btn" style="display: none;">Complete Challenge</button>
+        </div>
+
+        <!-- Final Page -->
+        <div id="finalPage" class="page">
+            <div class="celebration">🎉</div>
+            <h1>Congratulations!</h1>
+            <div class="score-display">
+                <div>Quiz Score: <span id="finalQuizScore"></span>/15</div>
+                <div>Riddle Score: <span id="finalRiddleScore"></span>/10</div>
+                <div><strong>Total Score: <span id="totalScore"></span>/25</strong></div>
+            </div>
+            <p style="margin: 20px 0; font-size: 1.1em; color: #555;">
+                Thank you for participating in our World No Tobacco Day educational challenge! 
+                Your awareness about tobacco-related health issues contributes to a healthier world.
+            </p>
+            <button class="btn" onclick="restartQuiz()">Take Quiz Again</button>
+        </div>
+    </div>
+
+    <script>
+        // Configuration
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwIJLA6zXY37IKNTl-OT2Q-XtgwWFyi4H2930rC69vEUcCBa4PplXGhHTr5CCqpLP5-/exec'
+        // Application State
+        let currentUser = {};
+        let currentQuizQuestion = 0;
+        let currentRiddle = 0;
+        let quizScore = 0;
+        let riddleScore = 0;
+        let quizAnswers = [];
+        let riddleAnswers = [];
+
+        // Quiz Questions Data
+        const quizQuestions = [
+            {
+                question: "Which organisation spearheads World No Tobacco Day?",
+                options: ["UN Environment Programme", "World Health Organisation WHO", "UNICEF", "International Labour Organization"],
+                correct: 1
+            },
+            {
+                question: "What is the addictive substance found in tobacco that makes it hard to quit?",
+                options: ["Tobacco", "Formaldehyde", "Nicotine", "Ash"],
+                correct: 2
+            },
+            {
+                question: "Are e-cigarettes a safe alternative to traditional cigarettes?",
+                options: ["No, they contain harmful chemicals and can be addictive.", "Yes, they are completely harmless.", "The research is still inconclusive.", "They are only harmful if used for a long time."],
+                correct: 0
+            },
+            {
+                question: "What is the theme for No tobacco day 2025",
+                options: ['"We Need Food, Not Tobacco"', '"Bright Products. Dark Intentions. Unmasking the Appeal,"', '"Tobacco and Lung Health"', '"Tobacco and it effects on the environment"'],
+                correct: 1
+            },
+            {
+                question: "According to WHO, on average, how many tobacco-related deaths are worldwide each year?",
+                options: ["3 Million", "Less than 2 Million", "About 8 Million", "Half a Million"],
+                correct: 2
+            },
+            {
+                question: "What does TFI stand for",
+                options: ["Tobacco Free India", "Tobacco Financial Investment", "Tobacco Funds India", "Tobacco Free Initiative"],
+                correct: 3
+            },
+            {
+                question: "What is a common method to help quit smoking?",
+                options: ["Nicotine replacement therapy", "Increasing cigarette use", "Avoiding water", "High sugar intake"],
+                correct: 0
+            },
+            {
+                question: "Which global treaty aims to reduce tobacco use?",
+                options: ["World Health Pact on Harmful Substances", "WHO Framework Convention on Tobacco Control", "Global Public Health Agreement", "International Health & Safety Charter"],
+                correct: 1
+            },
+            {
+                question: "What is a common symptom of nicotine withdrawal?",
+                options: ["Increased appetite", "Improved vision", "Lower heart rate", "Hair growth"],
+                correct: 0
+            },
+            {
+                question: "What is the WHO's target for reducing tobacco use by 2025?",
+                options: ["10%", "20%", "30%", "50%"],
+                correct: 2
+            },
+            {
+                question: "Which one of the following antidepressants is most likely to increase the odds of quitting smoking?",
+                options: ["Venlafaxine", "Nortriptyline", "Moclobemide", "Fluoxetine"],
+                correct: 1
+            },
+            {
+                question: "Which of the following is the most carcinogenic (cancer causing) substance in tobacco smoke",
+                options: ["Caffeine", "Nicotine", "Benzopyrene", "Formaldehyde"],
+                correct: 2
+            },
+            {
+                question: "What is the approximate temperature of the smoke inhaled by a person while actively smoking a cigarette?",
+                options: ["300°C", "200°C", "100°C", "400°C"],
+                correct: 0
+            },
+            {
+                question: "Which symptom is most commonly associated with quitting tobacco?",
+                options: ["Anxiety", "Dry mouth", "Blurred vision", "Joint pain"],
+                correct: 0
+            },
+            {
+                question: "Tobacco use is a major risk factor for all of the following EXCEPT:",
+                options: ["Cardiovascular diseases", "Skin allergies", "Respiratory diseases", "Cancer"],
+                correct: 1
+            }
+        ];
+
+        // Riddles Data
+        const riddles = [
+            {
+                riddle: "I cloud your breath and steal your air,\nInvisible poison everywhere.\nWhat am I?",
+                answer: "tobacco smoke"
+            },
+            {
+                riddle: "Though I'm small, I cause great pain,\nAddicted minds I try to chain.\nWhat am I?",
+                answer: "nicotine"
+            },
+            {
+                riddle: "I hide in colors bright and bold,\nBut inside me, stories told are cold.\nWhat am I?",
+                answer: "cigarette pack"
+            },
+            {
+                riddle: "I'm fire's friend and health's foe,\nFrom me, no good can ever grow.\nWhat am I?",
+                answer: "smoking"
+            },
+            {
+                riddle: "I process smoke and break things down,\nBut over time, I start to drown.\nWhat organ am I?",
+                answer: "liver"
+            },
+            {
+                riddle: "I creep in slowly, you may not see—\nBut I turn cells into a deadly spree.\nWhat effect am I?",
+                answer: "cancer"
+            },
+            {
+                riddle: "I trap your mind and make you crave,\nThough you know I dig your grave.\nWhat effect am I?",
+                answer: "addiction"
+            },
+            {
+                riddle: "I'm a test that checks your air,\nTo see if lungs are working fair.\nWhat am I?",
+                answer: "spirometry"
+            },
+            {
+                riddle: "I'm the gas you inhale from smoke,\nI bind with blood and make you choke.\nWhat am I?",
+                answer: "carbon monoxide"
+            },
+            {
+                riddle: "I'm the moment the world takes a stand,\nAgainst the smoke that's out of hand.\nWhat am I?",
+                answer: "world no tobacco day"
+            }
+        ];
+
+        // Utility Functions
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(pageId).classList.add('active');
+        }
+
+        function validateForm() {
+            let isValid = true;
+            
+            // Clear previous errors
+            clearErrors();
+            
+            // Validate name
+            const name = document.getElementById('name').value.trim();
+            if (name.length < 2) {
+                showError('nameError', 'Name must be at least 2 characters long');
+                isValid = false;
+            }
+            
+            // Validate email
+            const email = document.getElementById('email').value.trim();
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showError('emailError', 'Please enter a valid email address');
+                isValid = false;
+            }
+            
+            // Validate phone
+            const phone = document.getElementById('phone').value.trim();
+            const phoneRegex = /^[0-9+\-\s()]{10,}$/;
+            if (!phoneRegex.test(phone)) {
+                showError('phoneError', 'Please enter a valid phone number');
+                isValid = false;
+            }
+            
+            // Validate registration
+            const registration = document.getElementById('registration').value.trim();
+            if (registration.length < 3) {
+                showError('registrationError', 'Registration number must be at least 3 characters');
+                isValid = false;
+            }
+            
+            return isValid;
+        }
+
+        function showError(elementId, message) {
+            document.getElementById(elementId).textContent = message;
+        }
+
+        function clearErrors() {
+            const errorElements = document.querySelectorAll('.error');
+            errorElements.forEach(element => {
+                element.textContent = '';
+            });
+            document.getElementById('statusMessage').innerHTML = '';
+        }
+
+        // Google Sheets Integration
+        async function submitToGoogleSheets(data) {
+            try {
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams(data)
+                });
+                
+                console.log('Data submitted successfully');
+                return true;
+            } catch (error) {
+                console.error('Error submitting data:', error);
+                return false;
+            }
+        }
+
+        // Quiz Functions
+        function displayQuestion() {
+            const question = quizQuestions[currentQuizQuestion];
+            const container = document.getElementById('questionContainer');
+            
+            container.innerHTML = `
+                <div class="question">
+                    <h3>Question ${currentQuizQuestion + 1}/15</h3>
+                    <p style="font-size: 1.1em; margin-bottom: 15px;">${question.question}</p>
+                    <div class="options">
+                        ${question.options.map((option, index) => `
+                            <div class="option" onclick="selectOption(${index})" data-index="${index}">
+                                ${String.fromCharCode(97 + index)}) ${option}
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+
+            updateProgress();
+        }
+
+        function selectOption(index) {
+            document.querySelectorAll('.option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            const selectedOption = document.querySelector(`[data-index="${index}"]`);
+            selectedOption.classList.add('selected');
+            
+            quizAnswers[currentQuizQuestion] = {
+                questionIndex: currentQuizQuestion,
+                selectedAnswer: index,
+                isCorrect: index === quizQuestions[currentQuizQuestion].correct
+            };
+            
+            if (index === quizQuestions[currentQuizQuestion].correct) {
+                quizScore++;
+            }
+
+            document.getElementById('nextBtn').style.display = 'inline-block';
+            if (currentQuizQuestion === quizQuestions.length - 1) {
+                document.getElementById('finishQuizBtn').style.display = 'inline-block';
+                document.getElementById('nextBtn').style.display = 'none';
+            }
+        }
+
+        function nextQuestion() {
+            currentQuizQuestion++;
+            displayQuestion();
+            document.getElementById('nextBtn').style.display = 'none';
+        }
+
+        // Riddle Functions
+        function displayRiddle() {
+            const riddle = riddles[currentRiddle];
+            const container = document.getElementById('riddleContainer');
+            
+            container.innerHTML = `
+                <div class="riddle">
+                    <h3>Riddle ${currentRiddle + 1}/10</h3>
+                    <div class="riddle-text">${riddle.riddle.replace(/\n/g, '<br>')}</div>
+                    <input type="text" id="riddleAnswer" placeholder="Enter your answer..." onkeypress="handleRiddleEnter(event)">
+                </div>
+            `;
+
+            updateRiddleProgress();
+            document.getElementById('riddleAnswer').focus();
+        }
+
+        function handleRiddleEnter(event) {
+            if (event.key === 'Enter') {
+                submitRiddleAnswer();
+            }
+        }
+
+        function submitRiddleAnswer() {
+            const userAnswer = document.getElementById('riddleAnswer').value.toLowerCase().trim();
+            const correctAnswer = riddles[currentRiddle].answer.toLowerCase();
+            
+            const isCorrect = userAnswer === correctAnswer;
+            
+            riddleAnswers[currentRiddle] = {
+                riddleIndex: currentRiddle,
+                userAnswer: userAnswer,
+                correctAnswer: correctAnswer,
+                isCorrect: isCorrect
+            };
+            
+            if (isCorrect) {
+                riddleScore++;
+            }
+            
+            document.getElementById('submitRiddleBtn').style.display = 'none';
+            document.getElementById('nextRiddleBtn').style.display = 'inline-block';
+            
+            if (currentRiddle === riddles.length - 1) {
+                document.getElementById('finishRiddleBtn').style.display = 'inline-block';
+                document.getElementById('nextRiddleBtn').style.display = 'none';
+            }
+        }
+
+        function nextRiddle() {
+            currentRiddle++;
+            displayRiddle();
+            document.getElementById('nextRiddleBtn').style.display = 'none';
+            document.getElementById('submitRiddleBtn').style.display = 'inline-block';
+        }
+
+        function updateProgress() {
+            const progress = ((currentQuizQuestion + 1) / quizQuestions.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function updateRiddleProgress() {
+            const progress = ((currentRiddle + 1) / riddles.length) * 100;
+            document.getElementById('riddleProgressBar').style.width = progress + '%';
+        }
+
+        async function showFinalResults() {
+            document.getElementById('finalQuizScore').textContent = quizScore;
+            document.getElementById('finalRiddleScore').textContent = riddleScore;
+            document.getElementById('totalScore').textContent = quizScore + riddleScore;
+            
+            // Submit final results to Google Sheets
+            const finalData = {
+                action: 'submitResults',
+                name: currentUser.name,
+                email: currentUser.email,
+                phone: currentUser.phone,
+                registration: currentUser.registration,
+                quizScore: quizScore,
+                riddleScore: riddleScore,
+                totalScore: quizScore + riddleScore,
+                quizAnswers: JSON.stringify(quizAnswers),
+                riddleAnswers: JSON.stringify(riddleAnswers),
+                timestamp: new Date().toISOString()
+            };
+            
+            await submitToGoogleSheets(finalData);
+            showPage('finalPage');
+        }
+
+        function restartQuiz() {
+            currentQuizQuestion = 0;
+            currentRiddle = 0;
+            quizScore = 0;
+            riddleScore = 0;
+            quizAnswers = [];
+            riddleAnswers = [];
+            currentUser = {};
+            showPage('loginPage');
+            document.getElementById('loginForm').reset();
+        }
+
+        // Event Listeners
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            if (!validateForm()) {
+                return;
+            }
+
+            const submitBtn = document.getElementById('submitBtn');
+            const statusMessage = document.getElementById('statusMessage');
+            
+            // Change button state
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = 'Registering... <span class="loading"></span>';
+            
+            currentUser = {
+                name: document.getElementById('name').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                phone: document.getElementById('phone').value.trim(),
+                registration: document.getElementById('registration').value.trim()
+            };
+            
+            // Submit registration data
+            const registrationData = {
+                action: 'register',
+                ...currentUser,
+                timestamp: new Date().toISOString()
+            };
+            
+            const success = await submitToGoogleSheets(registrationData);
+            
+            if (success) {
+                statusMessage.innerHTML = '<div class="success">✓ Registration successful! Starting quiz...</div>';
+                setTimeout(() => {
+                    showPage('quizPage');
+                    displayQuestion();
+                }, 1500);
+            } else {
+                statusMessage.innerHTML = '<div class="error">❌ Registration failed. Please try again.</div>';
+            }
+            
+            // Reset button
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = 'Start Quiz';
+        });
+
+        document.getElementById('nextBtn').addEventListener('click', nextQuestion);
+        
+        document.getElementById('finishQuizBtn').addEventListener('click', function() {
+            showPage('riddlePage');
+            displayRiddle();
+            document.getElementById('submitRiddleBtn').style.display = 'inline-block';
+        });
+
+        document.getElementById('submitRiddleBtn').addEventListener('click', submitRiddleAnswer);
+        document.getElementById('nextRiddleBtn').addEventListener('click', nextRiddle);
+        document.getElementById('finishRiddleBtn').addEventListener('click', showFinalResults);
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            showPage('loginPage');
+        });
+    </script>
+</body>
+</html>
