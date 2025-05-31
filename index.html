@@ -18,17 +18,27 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 10px;
         }
 
         .container {
             background: white;
             border-radius: 20px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            padding: 40px;
-            width: 90%;
+            padding: 20px;
+            width: 100%;
             max-width: 600px;
             text-align: center;
             animation: slideIn 0.8s ease-out;
+            margin: 10px;
+        }
+
+        /* Tablet and Desktop styles */
+        @media (min-width: 768px) {
+            .container {
+                padding: 40px;
+                margin: 20px;
+            }
         }
 
         @keyframes slideIn {
@@ -52,30 +62,74 @@
 
         h1 {
             color: #333;
-            margin-bottom: 30px;
-            font-size: 2.5em;
+            margin-bottom: 20px;
+            font-size: 1.8em;
             background: linear-gradient(45deg, #667eea, #764ba2);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            line-height: 1.2;
+        }
+
+        /* Responsive typography */
+        @media (min-width: 480px) {
+            h1 {
+                font-size: 2.2em;
+                margin-bottom: 25px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            h1 {
+                font-size: 2.5em;
+                margin-bottom: 30px;
+            }
         }
 
         h2 {
             color: #444;
-            margin-bottom: 25px;
-            font-size: 1.8em;
+            margin-bottom: 20px;
+            font-size: 1.4em;
+            line-height: 1.3;
+        }
+
+        @media (min-width: 480px) {
+            h2 {
+                font-size: 1.6em;
+                margin-bottom: 25px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            h2 {
+                font-size: 1.8em;
+            }
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             text-align: left;
+        }
+
+        @media (min-width: 768px) {
+            .form-group {
+                margin-bottom: 20px;
+            }
         }
 
         label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             color: #555;
             font-weight: bold;
+            font-size: 14px;
+        }
+
+        @media (min-width: 480px) {
+            label {
+                margin-bottom: 8px;
+                font-size: 15px;
+            }
         }
 
         input[type="text"], input[type="email"], input[type="tel"] {
@@ -85,6 +139,9 @@
             border-radius: 10px;
             font-size: 16px;
             transition: all 0.3s ease;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
         }
 
         input[type="text"]:focus, input[type="email"]:focus, input[type="tel"]:focus {
@@ -97,18 +154,39 @@
             background: linear-gradient(45deg, #667eea, #764ba2);
             color: white;
             border: none;
-            padding: 15px 30px;
+            padding: 12px 24px;
             border-radius: 25px;
-            font-size: 16px;
+            font-size: 14px;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin: 10px;
+            margin: 8px;
+            min-width: 120px;
+            touch-action: manipulation;
+        }
+
+        @media (min-width: 480px) {
+            .btn {
+                padding: 14px 28px;
+                font-size: 15px;
+                margin: 10px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .btn {
+                padding: 15px 30px;
+                font-size: 16px;
+            }
         }
 
         .btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .btn:active {
+            transform: translateY(0);
         }
 
         .btn:disabled {
@@ -119,21 +197,67 @@
 
         .question {
             background: #f8f9fa;
-            padding: 20px;
+            padding: 15px;
             border-radius: 15px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             text-align: left;
+        }
+
+        @media (min-width: 768px) {
+            .question {
+                padding: 20px;
+                margin-bottom: 20px;
+            }
         }
 
         .question h3 {
             color: #333;
-            margin-bottom: 15px;
-            font-size: 1.2em;
+            margin-bottom: 12px;
+            font-size: 1.1em;
+            line-height: 1.3;
+        }
+
+        @media (min-width: 480px) {
+            .question h3 {
+                font-size: 1.15em;
+                margin-bottom: 15px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .question h3 {
+                font-size: 1.2em;
+            }
+        }
+
+        .question p {
+            font-size: 15px;
+            line-height: 1.4;
+            margin-bottom: 12px;
+        }
+
+        @media (min-width: 480px) {
+            .question p {
+                font-size: 16px;
+                margin-bottom: 15px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .question p {
+                font-size: 17px;
+            }
         }
 
         .options {
             display: grid;
-            gap: 10px;
+            gap: 8px;
+        }
+
+        @media (min-width: 768px) {
+            .options {
+                gap: 10px;
+            }
         }
 
         .option {
@@ -143,11 +267,31 @@
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
+            font-size: 14px;
+            line-height: 1.4;
+            word-wrap: break-word;
+            touch-action: manipulation;
+        }
+
+        @media (min-width: 480px) {
+            .option {
+                font-size: 15px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .option {
+                font-size: 16px;
+            }
         }
 
         .option:hover {
             border-color: #667eea;
             background: #f0f4ff;
+        }
+
+        .option:active {
+            transform: scale(0.98);
         }
 
         .option.selected {
@@ -158,33 +302,62 @@
 
         .progress-bar {
             width: 100%;
-            height: 8px;
+            height: 6px;
             background: #e1e5e9;
-            border-radius: 4px;
-            margin-bottom: 20px;
+            border-radius: 3px;
+            margin-bottom: 15px;
             overflow: hidden;
+        }
+
+        @media (min-width: 768px) {
+            .progress-bar {
+                height: 8px;
+                border-radius: 4px;
+                margin-bottom: 20px;
+            }
         }
 
         .progress {
             height: 100%;
             background: linear-gradient(45deg, #667eea, #764ba2);
             transition: width 0.3s ease;
-            border-radius: 4px;
+            border-radius: inherit;
         }
 
         .riddle {
             background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
-            padding: 25px;
+            padding: 20px;
             border-radius: 15px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             color: #333;
         }
 
+        @media (min-width: 768px) {
+            .riddle {
+                padding: 25px;
+                margin-bottom: 20px;
+            }
+        }
+
         .riddle-text {
-            font-size: 1.1em;
+            font-size: 16px;
             font-style: italic;
-            margin-bottom: 15px;
-            line-height: 1.6;
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+
+        @media (min-width: 480px) {
+            .riddle-text {
+                font-size: 17px;
+                margin-bottom: 15px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .riddle-text {
+                font-size: 18px;
+                line-height: 1.6;
+            }
         }
 
         .riddle input {
@@ -193,15 +366,43 @@
             border: 2px solid #ff9a9e;
             border-radius: 8px;
             font-size: 16px;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
         }
 
         .score-display {
-            font-size: 1.5em;
-            margin: 20px 0;
-            padding: 20px;
+            font-size: 1.2em;
+            margin: 15px 0;
+            padding: 15px;
             background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
             border-radius: 15px;
             color: #333;
+            line-height: 1.4;
+        }
+
+        @media (min-width: 480px) {
+            .score-display {
+                font-size: 1.3em;
+                margin: 18px 0;
+                padding: 18px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .score-display {
+                font-size: 1.5em;
+                margin: 20px 0;
+                padding: 20px;
+            }
+        }
+
+        .score-display div {
+            margin-bottom: 8px;
+        }
+
+        .score-display div:last-child {
+            margin-bottom: 0;
         }
 
         .celebration {
@@ -214,36 +415,142 @@
         }
 
         .tobacco-icon {
-            font-size: 3em;
-            margin-bottom: 20px;
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+
+        @media (min-width: 480px) {
+            .tobacco-icon {
+                font-size: 2.8em;
+                margin-bottom: 18px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .tobacco-icon {
+                font-size: 3em;
+                margin-bottom: 20px;
+            }
         }
 
         .error {
             color: #e74c3c;
-            font-size: 14px;
+            font-size: 13px;
             margin-top: 5px;
+            line-height: 1.3;
+        }
+
+        @media (min-width: 480px) {
+            .error {
+                font-size: 14px;
+            }
         }
 
         .success {
             color: #27ae60;
-            font-size: 14px;
+            font-size: 13px;
             margin-top: 5px;
+            line-height: 1.3;
+        }
+
+        @media (min-width: 480px) {
+            .success {
+                font-size: 14px;
+            }
         }
 
         .loading {
             display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #667eea;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #667eea;
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin-left: 10px;
+            margin-left: 8px;
+        }
+
+        @media (min-width: 768px) {
+            .loading {
+                width: 20px;
+                height: 20px;
+                border-width: 3px;
+                margin-left: 10px;
+            }
         }
 
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
+        }
+
+        /* Final page text responsive */
+        .final-message {
+            margin: 15px 0;
+            font-size: 16px;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        @media (min-width: 480px) {
+            .final-message {
+                margin: 18px 0;
+                font-size: 17px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .final-message {
+                margin: 20px 0;
+                font-size: 18px;
+                line-height: 1.6;
+            }
+        }
+
+        /* Touch improvements for mobile */
+        @media (max-width: 767px) {
+            .option {
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+            }
+            
+            .btn {
+                min-height: 44px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+
+        /* Landscape mobile adjustments */
+        @media (max-width: 767px) and (orientation: landscape) {
+            body {
+                padding: 5px;
+            }
+            
+            .container {
+                padding: 15px;
+                margin: 5px;
+            }
+            
+            h1 {
+                font-size: 1.6em;
+                margin-bottom: 15px;
+            }
+            
+            h2 {
+                font-size: 1.3em;
+                margin-bottom: 15px;
+            }
+        }
+
+        /* Large desktop optimizations */
+        @media (min-width: 1200px) {
+            .container {
+                max-width: 700px;
+                padding: 50px;
+            }
         }
     </style>
 </head>
@@ -320,7 +627,7 @@
                 <div>Riddle Score: <span id="finalRiddleScore"></span>/10</div>
                 <div><strong>Total Score: <span id="totalScore"></span>/25</strong></div>
             </div>
-            <p style="margin: 20px 0; font-size: 1.1em; color: #555;">
+            <p class="final-message">
                 Thank you for participating in our World No Tobacco Day educational challenge! 
                 Your awareness about tobacco-related health issues contributes to a healthier world.
             </p>
@@ -550,7 +857,7 @@
             container.innerHTML = `
                 <div class="question">
                     <h3>Question ${currentQuizQuestion + 1}/15</h3>
-                    <p style="font-size: 1.1em; margin-bottom: 15px;">${question.question}</p>
+                    <p>${question.question}</p>
                     <div class="options">
                         ${question.options.map((option, index) => `
                             <div class="option" onclick="selectOption(${index})" data-index="${index}">
@@ -758,6 +1065,19 @@
         // Initialize the application
         document.addEventListener('DOMContentLoaded', function() {
             showPage('loginPage');
+        });
+
+        // Add touch event handling for better mobile experience
+        document.addEventListener('DOMContentLoaded', function() {
+            // Prevent zoom on double tap for iOS
+            let lastTouchEnd = 0;
+            document.addEventListener('touchend', function (event) {
+                const now = (new Date()).getTime();
+                if (now - lastTouchEnd <= 300) {
+                    event.preventDefault();
+                }
+                lastTouchEnd = now;
+            }, false);
         });
     </script>
 </body>
